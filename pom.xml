@@ -8,9 +8,9 @@
 		<version>3.1.0</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.bezkoder</groupId>
+	<groupId>com.cdc</groupId>
 	<artifactId>spring-boot-data-mongodb</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.1-SNAPSHOT</version>
 	<name>spring-boot-data-mongodb</name>
 	<description>Spring Boot CRUD Rest APIs with Spring Data MongoDB</description>
 

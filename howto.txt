@@ -1,0 +1,43 @@
+C:\Work\ang5\CDC\spring-boot-data-mongodb
+
+https://github.com/bezkoder/spring-boot-data-mongodb
+
+mvn clean install
+mvn spring-boot:run
+
+Local MongoDB: Run as a Network Service.
+Account Domain: Local
+Account Name: MongoDB
+Account password: password
+Service Name: MongoDB
+Data Dir: C:\Program Files\MongoDB\Server\7.0\data\
+Log Dir: C:\Program Files\MongoDB\Server\7.0\log\
+
+C:\Program Files\MongoDB\Server\7.0\bin
+
+C:\mongosh-2.0.2-win32-x64\bin
+
+C:\mongosh-2.0.2-win32-x64\bin>mongosh
+C:\mongosh-2.0.2-win32-x64\bin>mongosh
+Current Mongosh Log ID: 654aa72c89b8953a0fca9d4a
+Connecting to:          mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.0.2
+Using MongoDB:          7.0.2
+Using Mongosh:          2.0.2
+
+For mongosh info see: https://docs.mongodb.com/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2023-11-07T16:02:47.119-05:00: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+------
+
+UI: http://localhost:8081/
+API: http://localhost:8080/api/tutorials
+http://localhost:8081/tutorials
+
+
+Mongo shell: C:\mongosh-2.0.2-win32-x64\bin>mongosh
+
+
+https://github.com/mpeng/cdc_vue.git
+https://github.com/mpeng/cdc_springboot.git
