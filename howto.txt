@@ -41,3 +41,5 @@ Mongo shell: C:\mongosh-2.0.2-win32-x64\bin>mongosh
 
 https://github.com/mpeng/cdc_vue.git
 https://github.com/mpeng/cdc_springboot.git
+http://localhost:8080/api/tutorials/654be7d616e6f27b089ed061
+http://localhost:8080/api/tutorials/published
