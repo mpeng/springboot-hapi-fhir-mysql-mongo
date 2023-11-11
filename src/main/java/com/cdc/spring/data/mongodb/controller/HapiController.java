@@ -26,7 +26,11 @@ import org.hl7.fhir.r4.model.Patient;
 import org.springframework.stereotype.Component;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 import ca.uhn.fhir.parser.IParser;
+import ca.uhn.fhir.rest.client.api.IHttpRequest;
+import ca.uhn.fhir.rest.client.api.IHttpResponse;
+import ca.uhn.fhir.rest.api.EncodingEnum;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -38,6 +42,75 @@ import org.json.JSONObject;
 @RequestMapping("/hapi")
 public class HapiController {
 
+
+  @GetMapping("/Patient/getAll")
+  public String getAllPatientDetails() {
+
+    String BASE_URL = "http://hapi.fhir.org/baseR4";
+
+    System.out.println( "=================Patient GET=======================" );
+
+
+    FhirContext fhirContext = FhirContext.forR4();
+
+    System.out.println( "FhirContext created " + fhirContext );
+
+    IGenericClient client = fhirContext.newRestfulGenericClient(BASE_URL);
+
+    System.out.println( "IGenericClient created " + client );
+
+    String jsonString = new JSONObject()
+            .put("status", 200)
+            .toString();
+    try {
+      IHttpRequest httpRequest = client.getHttpClient()
+              .createGetRequest(fhirContext, EncodingEnum.JSON);
+
+      System.out.println("IHttpRequest created " + httpRequest);
+
+      IHttpResponse httpResponse = httpRequest.execute();
+
+      System.out.println("IHttpResponse received " + httpResponse +
+              ", " + httpResponse.getResponse() + ", " + httpResponse.getStatus());
+
+      jsonString = new JSONObject()
+              .put("status", httpResponse.getStatus())
+              .toString();
+
+    } catch ( IOException e ) {
+      jsonString = new JSONObject()
+              .put("status", 500)
+              .toString();
+    }
+    return jsonString;
+  }
+
+  @GetMapping("/Patient/get")
+  public String getPatientDetails() {
+
+    String BASE_URL = "http://hapi.fhir.org/baseR4";
+
+    System.out.println( "=================Patient GET=======================" );
+
+
+    FhirContext fhirContext = FhirContext.forR4();
+
+    System.out.println( "FhirContext created " + fhirContext );
+
+    IGenericClient client = fhirContext.newRestfulGenericClient(BASE_URL);
+
+    System.out.println( "IGenericClient created " + client );
+
+
+    Patient patient = client.read().resource(Patient.class).withId("592824").execute();
+
+    // Print the patient's name
+    String rtn = fhirContext.newXmlParser().setPrettyPrint(true).encodeResourceToString(patient);
+    System.out.println(rtn);
+
+
+    return rtn;
+  }
 
   @PostMapping("/Patient/save")
   public String savePatientDetails(@RequestBody String p) {
