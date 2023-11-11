@@ -1,10 +1,10 @@
 package com.cdc.spring.data.mongodb.model;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+//import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "tutorials")
-public class Tutorial {
+@org.springframework.data.mongodb.core.mapping.Document(collection = "documents")
+public class Document {
   @Id
   private String id;
 
@@ -12,11 +12,11 @@ public class Tutorial {
   private String description;
   private boolean published;
 
-  public Tutorial() {
+  public Document() {
 
   }
 
-  public Tutorial(String title, String description, boolean published) {
+  public Document(String title, String description, boolean published) {
     this.title = title;
     this.description = description;
     this.published = published;
@@ -52,6 +52,6 @@ public class Tutorial {
 
   @Override
   public String toString() {
-    return "Tutorial [id=" + id + ", title=" + title + ", desc=" + description + ", published=" + published + "]";
+    return "Document [id=" + id + ", title=" + title + ", desc=" + description + ", published=" + published + "]";
   }
 }
