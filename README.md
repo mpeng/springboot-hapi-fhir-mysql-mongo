@@ -1,4 +1,4 @@
-# springboot-hapi-fhir-mysql-mongo
+## springboot-hapi-fhir-mysql-mongo
 Backend Spring Boot application that access HAPI-FHIR, MongoDB and MySQL
 ```
 Technology Stack:
@@ -9,7 +9,7 @@ MongoDB: 7.0
 MySQL: 8.0
 ```
 
-# Acess latest HAPI-FHIR (R4) from Spring boot 3.1.0
+## Acess latest HAPI-FHIR (R4) from Spring boot 3.1.0
 
 Backend Spring Boot application that access HAPI-FHIR, MongoDB and MySQL
 
@@ -17,7 +17,7 @@ Backend Spring Boot application that access HAPI-FHIR, MongoDB and MySQL
 
 To get started, just download ( gh, git or zip ), build, run and access from your favorite browser
 
-### Prerequisites
+## Prerequisites
 
 Make sure JDK 17 is installed.
 
@@ -38,7 +38,7 @@ To update one files, PUT [URL]/hapi/api/documents/{id}
 
 ```
 
-### Installing
+## Installing
 
 Use gh, git or download the .zip file.
 
