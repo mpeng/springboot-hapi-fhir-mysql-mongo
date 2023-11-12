@@ -1,7 +1,14 @@
 # springboot-hapi-fhir-mysql-mongo
 Backend Spring Boot application that access HAPI-FHIR, MongoDB and MySQL
 
-# Project Title
+Technology Stack:
+Java: 17
+Spring Boot: 3.1.0
+HAPI-FHIR: R4
+MongoDB: 7.0
+MySQL: 8.0
+
+# Acess latest HAPI-FHIR (R4) from Spring boot 3.1.0
 
 Backend Spring Boot application that access HAPI-FHIR, MongoDB and MySQL
 
