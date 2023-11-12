@@ -121,11 +121,10 @@ public class HapiController {
     System.out.println( "=================Patient getWithID for " + id + "=======================" );
     IGenericClient client = fhirContext.newRestfulGenericClient(BASE_URL);
     Patient patient = client.read().resource(Patient.class).withId(id).execute();
-    String rtn = fhirContext.newXmlParser().setPrettyPrint(true).encodeResourceToString(patient);
-
-    System.out.println("Patient get::rtn for id: " + id);
-    System.out.println(rtn);
-    System.out.println("--------------------");
+    //String rtn = fhirContext.newXmlParser().setPrettyPrint(true).encodeResourceToString(patient);
+    //System.out.println("Patient get::rtn for id: " + id);
+    //System.out.println(rtn);
+    //System.out.println("--------------------");
 
     String json = fhirContext.newJsonParser().setPrettyPrint(true).encodeResourceToString(patient);
 
@@ -181,7 +180,7 @@ public class HapiController {
     IGenericClient client = fhirContext.newRestfulGenericClient(BASE_URL);
 
     Patient patient = client.read().resource(Patient.class).withId("592824").execute();
-    String rtn = fhirContext.newXmlParser().setPrettyPrint(true).encodeResourceToString(patient);
+    String rtn = fhirContext.newJsonParser().setPrettyPrint(true).encodeResourceToString(patient);
 
     System.out.println("Patient get::rtn = ");
     System.out.println(rtn);
