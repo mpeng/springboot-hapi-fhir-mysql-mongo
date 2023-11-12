@@ -118,32 +118,34 @@ public class HapiController {
   @RequestMapping(value="Patient/getWithID", method = RequestMethod.GET)
   public String getPatientDetailsWithID(@RequestParam("id") String id) {
 
-    System.out.println( "=================Patient getWithID for " + id + "=======================" );
-    IGenericClient client = fhirContext.newRestfulGenericClient(BASE_URL);
-    Patient patient = client.read().resource(Patient.class).withId(id).execute();
-    //String rtn = fhirContext.newXmlParser().setPrettyPrint(true).encodeResourceToString(patient);
-    //System.out.println("Patient get::rtn for id: " + id);
-    //System.out.println(rtn);
-    //System.out.println("--------------------");
-
-    String json = fhirContext.newJsonParser().setPrettyPrint(true).encodeResourceToString(patient);
-
-    System.out.println("Patient get JSON::rtn for id: " + id);
-    System.out.println(json);
-    System.out.println("--------------------");
-
+    String json = "{ \"status\": 500 }";
     try {
-      ObjectMapper mapper = new ObjectMapper();
+      System.out.println( "=================Patient getWithID for " + id + "=======================" );
+      IGenericClient client = fhirContext.newRestfulGenericClient(BASE_URL);
+      Patient patient = client.read().resource(Patient.class).withId(id).execute();
+      //String rtn = fhirContext.newXmlParser().setPrettyPrint(true).encodeResourceToString(patient);
+      //System.out.println("Patient get::rtn for id: " + id);
+      //System.out.println(rtn);
+      //System.out.println("--------------------");
+        json = fhirContext.newJsonParser().setPrettyPrint(true).encodeResourceToString(patient);
 
-      Map<String, Object> map = mapper.readValue(json, Map.class);
+      System.out.println("Patient get JSON::rtn for id: " + id);
+      System.out.println(json);
+      System.out.println("--------------------");
 
-      for (Map.Entry<String, Object> e : map.entrySet()) {
-        System.out.println(e.getKey() + " => " + e.getValue());
-      }
-    } catch ( JsonProcessingException e ) {
-      json = "{ \"status\": 500 }";
+        ObjectMapper mapper = new ObjectMapper();
+
+        Map<String, Object> map = mapper.readValue(json, Map.class);
+
+        for (Map.Entry<String, Object> e : map.entrySet()) {
+          System.out.println(e.getKey() + " => " + e.getValue());
+        }
+    } catch ( Exception e ) {
+      System.out.println( "getPatientDetailsWithID => " + e.getMessage() );
+      json = "{ \"status\": 500, \"data\": \"" + e.getMessage() + "\" }";
     }
 
+    System.out.println( "getPatientDetailsWithID => " + json );
     return json;
   }
 
