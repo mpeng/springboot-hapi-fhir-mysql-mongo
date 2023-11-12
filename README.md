@@ -68,7 +68,13 @@ Michael peng
 
 ## Authors
 
-* **Michael Peng* - *Initial work* - [mpeng](https://github.com/mpeng)
+**Michael Peng** - *Initial work* - [mpeng](https://github.com/mpeng)
+
+https://www.theoptionslab.com
+
+https://talkingcalendarreminder.com
+
+https://audenty.herokuapp.com
 
 
 ## License
