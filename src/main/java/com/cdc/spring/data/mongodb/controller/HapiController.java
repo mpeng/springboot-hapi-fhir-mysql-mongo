@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -43,6 +42,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 
 import org.json.JSONObject;
 
@@ -55,25 +56,23 @@ public class HapiController {
   private RestClientUtil restClientUtil;
 
   private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+  private static final String BASE_URL = "http://hapi.fhir.org/baseR4";
+  private static final String RAW_JSON = "?_format=json";
+  private final FhirContext fhirContext = FhirContext.forR4();
 
 
   @GetMapping("/Patient/getDetail")
   public String getPatientDetail() {
-
-    String BASE_URL = "http://hapi.fhir.org/baseR4";
 
     String jsonString = new JSONObject()
             .put("status", 500)
             .toString();
 
     System.out.println( "=================Patient getDetail=======================" );
-
-
     final String url = BASE_URL + "Patient/592824?_format=json";
 
     try {
       Patient patient = Optional.of(restClientUtil.getHttpResponse(url, Patient.class, HttpMethod.GET, null)).get();
-
       jsonString = new JSONObject()
               .put("status", 200)
               .toString();
@@ -89,23 +88,10 @@ public class HapiController {
   }
 
 
-
-
-
-
-
   @GetMapping("/Patient/getAll")
   public String getAllPatient() {
 
-    String BASE_URL = "http://hapi.fhir.org/baseR4";
-
     System.out.println( "=================Patient getAll=======================" );
-
-
-    FhirContext fhirContext = FhirContext.forR4();
-
-    System.out.println( "FhirContext created " + fhirContext );
-
     IGenericClient client = fhirContext.newRestfulGenericClient(BASE_URL);
 
     System.out.println( "IGenericClient created " + client );
@@ -140,23 +126,12 @@ public class HapiController {
   @RequestMapping(value="Patient/getWithID", method = RequestMethod.GET)
   public String getPatientDetailsWithID(@RequestParam("id") String id) {
 
-    String BASE_URL = "http://hapi.fhir.org/baseR4";
-
     System.out.println( "=================Patient getWithID for " + id + "=======================" );
-
-
-    FhirContext fhirContext = FhirContext.forR4();
-
-    System.out.println( "FhirContext created " + fhirContext );
-
     IGenericClient client = fhirContext.newRestfulGenericClient(BASE_URL);
 
     System.out.println( "IGenericClient created " + client );
 
-
     Patient patient = client.read().resource(Patient.class).withId(id).execute();
-
-    // Print the patient's name
     String rtn = fhirContext.newXmlParser().setPrettyPrint(true).encodeResourceToString(patient);
 
     System.out.println("Patient get::rtn for id: " + id);
@@ -184,32 +159,55 @@ public class HapiController {
     return json;
   }
 
+
+  @GetMapping("/Patient/getEntity")
+  public ResponseEntity<String>  getPatientEntity() {
+
+    System.out.println( "=================Patient getEntity=======================" );
+
+    String rtn = "";
+
+    try {
+      IGenericClient client = fhirContext.newRestfulGenericClient(BASE_URL);
+
+      System.out.println("IGenericClient created " + client);
+
+      Patient patient = client.read().resource(Patient.class).withId("592824").execute();
+      rtn = fhirContext.newJsonParser().setPrettyPrint(true).encodeResourceToString(patient);
+
+      System.out.println("Patient getEntity::rtn = ");
+      System.out.println(rtn);
+      System.out.println("--------------------");
+
+      if (patient != null) {
+        return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON).body(rtn);
+      } else {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).contentType(MediaType.APPLICATION_JSON).body(rtn);
+      }
+    } catch (Exception e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).contentType(MediaType.APPLICATION_JSON).body(rtn);
+    }
+
+  }
+
+
+
   @GetMapping("/Patient/get")
   public String getPatientDetails() {
 
-    String BASE_URL = "http://hapi.fhir.org/baseR4";
-
     System.out.println( "=================Patient get=======================" );
-
-
-    FhirContext fhirContext = FhirContext.forR4();
-
-    System.out.println( "FhirContext created " + fhirContext );
 
     IGenericClient client = fhirContext.newRestfulGenericClient(BASE_URL);
 
     System.out.println( "IGenericClient created " + client );
 
-
     Patient patient = client.read().resource(Patient.class).withId("592824").execute();
 
-    // Print the patient's name
     String rtn = fhirContext.newXmlParser().setPrettyPrint(true).encodeResourceToString(patient);
 
     System.out.println("Patient get::rtn = ");
     System.out.println(rtn);
     System.out.println("--------------------");
-
 
     return rtn;
   }
@@ -217,18 +215,8 @@ public class HapiController {
   @PostMapping("/Patient/save")
   public String savePatientDetails(@RequestBody String p) {
 
-    String BASE_URL = "http://hapi.fhir.org/baseR4";
-    String RAW_JSON = "?_format=json";
-
     System.out.println( "==================Patient save======================" );
-
     System.out.println( p );
-
-    System.out.println( "========================================" );
-
-    FhirContext fhirContext = FhirContext.forR4();
-
-    System.out.println( "FhirContext created " + fhirContext );
 
     IGenericClient client = fhirContext.newRestfulGenericClient(BASE_URL);
 
@@ -241,10 +229,6 @@ public class HapiController {
     Patient firObject=parser.parseResource(Patient.class,p);
 
     System.out.println( "Patient created " + firObject );
-
-    //MethodOutcome s = client.create().resource(firObject).prettyPrint()
-      //      .encodedJson()
-        //    .execute();
 
     MethodOutcome s = client.create().resource(firObject).encodedJson().execute();
 
@@ -260,8 +244,7 @@ public class HapiController {
             .toString();
 
     System.out.println(jsonString);
-
-
+    
     return jsonString;
   }
 
