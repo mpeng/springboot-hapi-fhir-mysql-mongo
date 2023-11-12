@@ -63,7 +63,6 @@ public class HapiController {
 
   @GetMapping("/Patient/getDetail")
   public String getPatientDetail() {
-
     String jsonString = new JSONObject()
             .put("status", 500)
             .toString();
@@ -90,11 +89,8 @@ public class HapiController {
 
   @GetMapping("/Patient/getAll")
   public String getAllPatient() {
-
     System.out.println( "=================Patient getAll=======================" );
     IGenericClient client = fhirContext.newRestfulGenericClient(BASE_URL);
-
-    System.out.println( "IGenericClient created " + client );
 
     String jsonString = new JSONObject()
             .put("status", 200)
@@ -102,9 +98,6 @@ public class HapiController {
     try {
       IHttpRequest httpRequest = client.getHttpClient()
               .createGetRequest(fhirContext, EncodingEnum.JSON);
-
-      System.out.println("IHttpRequest created " + httpRequest);
-
       IHttpResponse httpResponse = httpRequest.execute();
 
       System.out.println("IHttpResponse received " + httpResponse +
@@ -113,7 +106,6 @@ public class HapiController {
       jsonString = new JSONObject()
               .put("status", httpResponse.getStatus())
               .toString();
-
     } catch ( IOException e ) {
       jsonString = new JSONObject()
               .put("status", 500)
@@ -128,9 +120,6 @@ public class HapiController {
 
     System.out.println( "=================Patient getWithID for " + id + "=======================" );
     IGenericClient client = fhirContext.newRestfulGenericClient(BASE_URL);
-
-    System.out.println( "IGenericClient created " + client );
-
     Patient patient = client.read().resource(Patient.class).withId(id).execute();
     String rtn = fhirContext.newXmlParser().setPrettyPrint(true).encodeResourceToString(patient);
 
@@ -162,16 +151,11 @@ public class HapiController {
 
   @GetMapping("/Patient/getEntity")
   public ResponseEntity<String>  getPatientEntity() {
-
     System.out.println( "=================Patient getEntity=======================" );
-
     String rtn = "";
 
     try {
       IGenericClient client = fhirContext.newRestfulGenericClient(BASE_URL);
-
-      System.out.println("IGenericClient created " + client);
-
       Patient patient = client.read().resource(Patient.class).withId("592824").execute();
       rtn = fhirContext.newJsonParser().setPrettyPrint(true).encodeResourceToString(patient);
 
@@ -187,22 +171,16 @@ public class HapiController {
     } catch (Exception e) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).contentType(MediaType.APPLICATION_JSON).body(rtn);
     }
-
   }
 
 
 
   @GetMapping("/Patient/get")
   public String getPatientDetails() {
-
     System.out.println( "=================Patient get=======================" );
-
     IGenericClient client = fhirContext.newRestfulGenericClient(BASE_URL);
 
-    System.out.println( "IGenericClient created " + client );
-
     Patient patient = client.read().resource(Patient.class).withId("592824").execute();
-
     String rtn = fhirContext.newXmlParser().setPrettyPrint(true).encodeResourceToString(patient);
 
     System.out.println("Patient get::rtn = ");
@@ -212,39 +190,29 @@ public class HapiController {
     return rtn;
   }
 
+
   @PostMapping("/Patient/save")
   public String savePatientDetails(@RequestBody String p) {
-
     System.out.println( "==================Patient save======================" );
     System.out.println( p );
 
     IGenericClient client = fhirContext.newRestfulGenericClient(BASE_URL);
-
-    System.out.println( "IGenericClient created " + client );
-
     IParser parser = fhirContext.newJsonParser();
-
-    System.out.println( "IParser created " + parser );
-
     Patient firObject=parser.parseResource(Patient.class,p);
-
     System.out.println( "Patient created " + firObject );
 
     MethodOutcome s = client.create().resource(firObject).encodedJson().execute();
-
     System.out.println( "ID " + s.getId().getBaseUrl() + ", " + s.getId().getIdPart() + ", " +
             s.getId().getValue());
 
     System.out.println( "MethodOutcome created " + s );
-
     String jsonString = new JSONObject()
             .put("id", s.getId().getIdPart())
             .put("url", s.getId().getValue() + RAW_JSON)
             .put("status", 200)
             .toString();
-
     System.out.println(jsonString);
-    
+
     return jsonString;
   }
 
