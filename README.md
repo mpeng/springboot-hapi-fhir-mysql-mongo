@@ -36,6 +36,8 @@ To delete all files, GET [URL]/hapi/api/documents
 To retrieve all files, GET [URL]/hapi/api/documents
 To update one files, PUT [URL]/hapi/api/documents/{id}
 
+```
+
 ### Installing
 
 Use gh, git or download the .zip file.
