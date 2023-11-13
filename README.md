@@ -1,4 +1,5 @@
-## springboot-hapi-fhir-mysql-mongo
+## Spring Boot based Application for Health Level 7 (HL7) and hapi fihr
+   
 Backend Spring Boot application that access HAPI-FHIR, MongoDB and MySQL
 ```
 Technology Stack:
